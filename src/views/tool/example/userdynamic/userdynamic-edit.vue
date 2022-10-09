@@ -6,8 +6,8 @@
     <a-form ref="form" :model="form" :rules="rules" :label-col="{md: {span: 4}, sm: {span: 24}}"
             :wrapper-col="{md: {span: 19}, sm: {span: 24}}">
 
-      <a-form-item label="用户guid:" name="user_guid">
-        <a-input v-model:value="form.user_guid" placeholder="请输入用户guid" allow-clear/>
+      <a-form-item label="用户guid:" name="guid">
+        <a-input v-model:value="form.guid" placeholder="请输入用户guid" allow-clear/>
       </a-form-item>
 
       <a-form-item label="动态唯一sn:" name="dynamic_sn">
@@ -81,7 +81,7 @@ export default {
       // 表单验证规则
       rules: {
 
-        user_guid: [{
+        guid: [{
           required: true,
           message: '请输入用户guid',
           type: 'string',

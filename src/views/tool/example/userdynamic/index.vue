@@ -119,7 +119,7 @@ export default {
 
         {
           title: '用户guid',
-          dataIndex: 'user_guid',
+          dataIndex: 'guid',
           align: 'center'
         },
 
