@@ -7,21 +7,32 @@
         :label-col="{md: {span: 6}, sm: {span: 24}}"
         :wrapper-col="{md: {span: 18}, sm: {span: 24}}">
         <a-row>
-                        
+
           <a-col :lg="6" :md="12" :sm="24" :xs="24">
-            <a-form-item
-              label="有效标识"
-              name="mark">
-              <a-select
-                v-model:value="where.mark"
-                placeholder="请选择有效标识"
-                allow-clear>
-                <a-select-option :value="1">正常</a-select-option>
-                <a-select-option :value="0">删除</a-select-option>
-                </a-select>
+            <a-form-item label="广告位名称:">
+              <a-input
+                v-model:value.trim="where.name"
+                placeholder="请输入广告位名称"
+                allow-clear/>
             </a-form-item>
           </a-col>
-                              
+
+          <a-col :lg="6" :md="12" :sm="24" :xs="24">
+            <a-form-item
+              label="广告位类型"
+              name="type">
+              <a-select
+                v-model:value="where.type"
+                placeholder="请选择广告位类型"
+                allow-clear>
+                <a-select-option :value="1">图片</a-select-option>
+                <a-select-option :value="2">文字</a-select-option>
+                <a-select-option :value="3">视频</a-select-option>
+                <a-select-option :value="4">推荐</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+
           <a-col :lg="6" :md="12" :sm="24" :xs="24">
             <a-form-item style="padding-left:10px;" :wrapper-col="{span: 24}">
               <a-space>
@@ -43,13 +54,13 @@
         :scroll="{x: 'max-content'}">
         <template #toolbar>
           <a-space>
-            <a-button type="primary" @click="openEdit()" v-if="permission.includes('sys:openlog202203:add')">
+            <a-button type="primary" @click="openEdit()" v-if="permission.includes('sys:advertposition:add')">
               <template #icon>
                 <plus-outlined/>
               </template>
               <span>新建</span>
             </a-button>
-            <a-button type="danger" @click="removeBatch" v-if="permission.includes('sys:openlog202203:dall')">
+            <a-button type="danger" @click="removeBatch" v-if="permission.includes('sys:advertposition:dall')">
               <template #icon>
                 <delete-outlined/>
               </template>
@@ -57,24 +68,27 @@
             </a-button>
           </a-space>
         </template>
-                          
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                  
+
+        <template #type="{ record }">
+          <a-tag :color="['green', 'blue', 'orange', 'red'][record.type-1]">
+            {{ ['图片', '文字', '视频', '推荐'][record.type - 1] }}
+          </a-tag>
+        </template>
+
+        <template #is_complete="{ record }">
+          <a-tag :color="['blue', 'green'][record.is_complete]">
+            {{ ['否', '是'][record.is_complete] }}
+          </a-tag>
+        </template>
+
         <template #action="{ record }">
           <a-space>
-            <a @click="openEdit(record)" v-if="permission.includes('sys:openlog202203:edit')">修改</a>
+            <a @click="openEdit(record)" v-if="permission.includes('sys:advertposition:edit')">修改</a>
             <a-divider type="vertical"/>
             <a-popconfirm
-              title="确定要删除此系统行为日志吗？"
+              title="确定要删除此广告位吗？"
               @confirm="remove(record)">
-              <a class="ele-text-danger" v-if="permission.includes('sys:openlog202203:delete')">删除</a>
+              <a class="ele-text-danger" v-if="permission.includes('sys:advertposition:delete')">删除</a>
             </a-popconfirm>
           </a-space>
         </template>
@@ -82,28 +96,28 @@
     </a-card>
   </div>
   <!-- 编辑弹窗 -->
-  <openlog
+  <advertposition-edit
     v-model:visible="showEdit"
     :data="current"
     @done="reload"/>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import {createVNode} from 'vue'
 import {
   PlusOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons-vue';
-import openlog from './openlog202203-edit';
+import advertpositionEdit from './advertposition-edit';
 
 export default {
-  name: 'ExamOpenLog202203',
+  name: 'ExamAdvertPosition',
   components: {
     PlusOutlined,
     DeleteOutlined,
-    openlog
+    advertpositionEdit
   },
   computed: {
     ...mapGetters(["permission"]),
@@ -111,7 +125,7 @@ export default {
   data() {
     return {
       // 表格数据接口
-      url: '/openlog202203/index',
+      url: '/advertposition/index',
       // 表格列配置
       columns: [
         {
@@ -122,74 +136,55 @@ export default {
           fixed: 'left',
           customRender: ({index}) => this.$refs.table.tableIndex + index
         },
-            
+
         {
-          title: '操作人用户名',
-          dataIndex: 'client_id',
+          title: '广告位名称',
+          dataIndex: 'name',
           align: 'center'
         },
-                      
+
         {
-          title: '请求类型',
-          dataIndex: 'method',
+          title: '广告位类型',
+          dataIndex: 'type',
+          sorter: true,
+          align: 'center',
+          slots: {customRender: 'type'}
+        },
+
+        {
+          title: '是否原图上传',
+          dataIndex: 'is_complete',
+          sorter: true,
+          align: 'center',
+          slots: {customRender: 'is_complete'}
+        },
+
+        {
+          title: '广告宽度',
+          dataIndex: 'width',
           align: 'center'
         },
-                      
+
         {
-          title: '模型',
-          dataIndex: 'module',
+          title: '广告高度',
+          dataIndex: 'height',
           align: 'center'
         },
-                      
-        {
-          title: '操作页面',
-          dataIndex: 'url',
-          align: 'center'
-        },
-                      
-        {
-          title: '请求参数(JSON格式)',
-          dataIndex: 'param',
-          align: 'center'
-        },
-                      
-        {
-          title: 'IP地址',
-          dataIndex: 'ip',
-          align: 'center'
-        },
-                      
-        {
-          title: '操作系统',
-          dataIndex: 'os',
-          align: 'center'
-        },
-                      
-        {
-          title: '浏览器',
-          dataIndex: 'browser',
-          align: 'center'
-        },
-                      
-        {
-          title: 'User-Agent',
-          dataIndex: 'user_agent',
-          align: 'center'
-        },
-            
+
+
         {
           title: '创建时间',
           dataIndex: 'create_time',
           sorter: true,
           align: 'center',
-          customRender: ({text}) => this.$util.toDateString(text*1000)
+          //customRender: ({text}) => this.$util.toDateString(text*1000)
         },
         {
           title: '更新时间',
           dataIndex: 'update_time',
           sorter: true,
           align: 'center',
-          customRender: ({text}) => this.$util.toDateString(text*1000)
+          // customRender: ({text}) => this.$util.toDateString(text*1000)
         },
         {
           title: '操作',
@@ -226,7 +221,7 @@ export default {
     /* 删除单个 */
     remove(row) {
       const hide = this.$message.loading('请求中..', 0);
-      this.$http.post('/openlog202203/delete', {id : row.id}).then(res => {
+      this.$http.post('/advertposition/delete', {id: row.id}).then(res => {
         hide();
         if (res.data.code === 0) {
           this.$message.success(res.data.msg);
@@ -247,12 +242,12 @@ export default {
       }
       this.$confirm({
         title: '提示',
-        content: '确定要删除选中的系统行为日志吗?',
+        content: '确定要删除选中的广告位吗?',
         icon: createVNode(ExclamationCircleOutlined),
         maskClosable: true,
         onOk: () => {
           const hide = this.$message.loading('请求中..', 0);
-          this.$http.post('/openlog202203/delete', {
+          this.$http.post('/advertposition/delete', {
             id: this.selection.map(d => d.id)
           }).then(res => {
             hide();
@@ -274,7 +269,7 @@ export default {
       this.current = row;
       this.showEdit = true;
     },
-                                                          
+
   }
 }
 </script>

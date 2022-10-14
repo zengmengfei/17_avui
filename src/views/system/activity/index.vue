@@ -9,76 +9,27 @@
         <a-row>
 
           <a-col :lg="6" :md="12" :sm="24" :xs="24">
+            <a-form-item
+              label="活动类型"
+              name="activity_type">
+              <a-select
+                v-model:value="where.activity_type"
+                placeholder="请选择活动类型"
+                allow-clear>
+                <a-select-option :value="10">运动健身</a-select-option>
+                <a-select-option :value="20">户外出行</a-select-option>
+                <a-select-option :value="30">单身交友</a-select-option>
+                <a-select-option :value="40">生活学习</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+
+          <a-col :lg="6" :md="12" :sm="24" :xs="24">
             <a-form-item label="活动标题:">
               <a-input
                 v-model:value.trim="where.title"
                 placeholder="请输入活动标题"
                 allow-clear/>
-            </a-form-item>
-          </a-col>
-
-          <a-col :lg="6" :md="12" :sm="24" :xs="24">
-            <a-form-item
-              label="取消截止时间类型"
-              name="cancel_apply_deadline_type">
-              <a-select
-                v-model:value="where.cancel_apply_deadline_type"
-                placeholder="请选择取消截止时间类型"
-                allow-clear>
-                <a-select-option :value="10">活动前两小时</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-
-          <a-col :lg="6" :md="12" :sm="24" :xs="24">
-            <a-form-item
-              label="男参与最低级别 0"
-              name="male_min_level">
-              <a-select
-                v-model:value="where.male_min_level"
-                placeholder="请选择男参与最低级别"
-                allow-clear>
-                <a-select-option :value="0">不限</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-
-          <a-col :lg="6" :md="12" :sm="24" :xs="24">
-            <a-form-item
-              label="男参与最高级别 0"
-              name="male_max_level">
-              <a-select
-                v-model:value="where.male_max_level"
-                placeholder="请选择男参与最高级别"
-                allow-clear>
-                <a-select-option :value="0">不限</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-
-          <a-col :lg="6" :md="12" :sm="24" :xs="24">
-            <a-form-item
-              label="女参与最低级别"
-              name="female_min_level">
-              <a-select
-                v-model:value="where.female_min_level"
-                placeholder="请选择女参与最低级别"
-                allow-clear>
-                <a-select-option :value="0">不限</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-
-          <a-col :lg="6" :md="12" :sm="24" :xs="24">
-            <a-form-item
-              label="女参与最高级别 0"
-              name="female_max_level">
-              <a-select
-                v-model:value="where.female_max_level"
-                placeholder="请选择女参与最高级别"
-                allow-clear>
-                <a-select-option :value="0">不限</a-select-option>
-              </a-select>
             </a-form-item>
           </a-col>
 
@@ -92,6 +43,20 @@
                 allow-clear>
                 <a-select-option :value="10">个人</a-select-option>
                 <a-select-option :value="20">俱乐部</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+
+          <a-col :lg="6" :md="12" :sm="24" :xs="24">
+            <a-form-item
+              label="队伍类型"
+              name="team_type">
+              <a-select
+                v-model:value="where.team_type"
+                placeholder="请选择队伍类型"
+                allow-clear>
+                <a-select-option :value="10">线上分队</a-select-option>
+                <a-select-option :value="20">线下分队</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -134,47 +99,8 @@
         </template>
 
         <template #cover_imgs="{ record }">
-          <a-image :width="35" :src="record.cover_imgs"/>
+          <a-image :width="35" v-if="record.cover_imgs && record.cover_imgs[0]" :src="record.cover_imgs[0]"/>
         </template>
-
-
-        <template #male_min_level="{ record }">
-          <a-tag :color="['green', 'blue', 'orange', 'red'][record.male_min_level-1]">
-            {{ ['不限'][record.male_min_level - 1] }}
-          </a-tag>
-        </template>
-
-        <template #male_max_level="{ record }">
-          <a-tag :color="['green', 'blue', 'orange', 'red'][record.male_max_level-1]">
-            {{ ['不限'][record.male_max_level - 1] }}
-          </a-tag>
-        </template>
-
-        <template #female_min_level="{ record }">
-          <a-tag :color="['green', 'blue', 'orange', 'red'][record.female_min_level-1]">
-            {{ ['不限'][record.female_min_level - 1] }}
-          </a-tag>
-        </template>
-
-        <template #female_max_level="{ record }">
-          <a-tag :color="['green', 'blue', 'orange', 'red'][record.female_max_level-1]">
-            {{ ['不限'][record.female_max_level - 1] }}
-          </a-tag>
-        </template>
-
-        <template #organizer_type="{ record }">
-          <a-tag :color="['green', 'blue', 'orange', 'red'][record.organizer_type-1]">
-            {{ ['个人', ''][record.organizer_type - 1] }}
-          </a-tag>
-        </template>
-
-
-        <template #is_team_part="{ text, record }">
-          <a-switch
-            :checked="text===1"
-            @change="(checked) => setIsTeamPart(checked, record)"/>
-        </template>
-
 
         <template #action="{ record }">
           <a-space>
@@ -240,20 +166,27 @@ export default {
         },
 
         {
-          title: '关联用户guid',
-          dataIndex: 'guid',
-          align: 'center'
-        },
-
-        {
           title: '活动唯一sn',
           dataIndex: 'activity_sn',
           align: 'center'
         },
 
         {
+          title: '活动类型',
+          dataIndex: 'activity_type_str',
+          align: 'center',
+          slots: {customRender: 'activity_type_str'}
+        },
+
+        {
           title: '场馆sn',
           dataIndex: 'venue_sn',
+          align: 'center'
+        },
+
+        {
+          title: '场馆名称',
+          dataIndex: 'venue_name',
           align: 'center'
         },
 
@@ -288,7 +221,7 @@ export default {
         },
 
         {
-          title: '取消截止时间',
+          title: '取消报名截止时间',
           dataIndex: 'cancel_apply_deadline_time',
           align: 'center'
         },
@@ -300,43 +233,10 @@ export default {
         },
 
         {
-          title: '男参与最低级别',
-          dataIndex: 'male_min_level',
-          sorter: true,
-          align: 'center',
-          slots: {customRender: 'male_min_level'}
-        },
-
-        {
-          title: '男参与最高级别',
-          dataIndex: 'male_max_level',
-          sorter: true,
-          align: 'center',
-          slots: {customRender: 'male_max_level'}
-        },
-
-        {
-          title: '女参与最低级别',
-          dataIndex: 'female_min_level',
-          sorter: true,
-          align: 'center',
-          slots: {customRender: 'female_min_level'}
-        },
-
-        {
-          title: '女参与最高级别',
-          dataIndex: 'female_max_level',
-          sorter: true,
-          align: 'center',
-          slots: {customRender: 'female_max_level'}
-        },
-
-        {
           title: '组织者类型',
-          dataIndex: 'organizer_type',
-          sorter: true,
+          dataIndex: 'organizer_type_str',
           align: 'center',
-          slots: {customRender: 'organizer_type'}
+          slots: {customRender: 'organizer_type_str'}
         },
 
         {
@@ -351,19 +251,17 @@ export default {
           align: 'center'
         },
 
-        {
-          title: '联系人微信号',
-          dataIndex: 'contact_wxid',
-          align: 'center'
-        },
+        // {
+        //   title: '联系人微信号',
+        //   dataIndex: 'contact_wxid',
+        //   align: 'center'
+        // },
 
         {
-          title: '是否分队',
-          dataIndex: 'is_team_part',
-          sorter: true,
-          width: 100,
+          title: '队伍类型',
+          dataIndex: 'team_type_str',
           align: 'center',
-          slots: {customRender: 'is_team_part'}
+          slots: {customRender: 'team_type_str'}
         },
 
         {
@@ -385,22 +283,30 @@ export default {
         },
 
         {
-          title: '场馆实际费用, 队长折扣后价格',
-          dataIndex: 'venue_actual_cost',
-          align: 'center'
-        },
-
-        {
           title: '报名费',
           dataIndex: 'entry_fee',
           align: 'center'
         },
+
+        {
+          title: '活动状态',
+          dataIndex: 'ac_status_str',
+          align: 'center'
+        },
+
         {
           title: '创建时间',
           dataIndex: 'create_time',
           sorter: true,
           align: 'center',
           //customRender: ({text}) => this.$util.toDateString(text*1000)
+        },
+        {
+          title: '更新时间',
+          dataIndex: 'update_time',
+          sorter: true,
+          align: 'center',
+          // customRender: ({text}) => this.$util.toDateString(text*1000)
         },
         {
           title: '操作',
@@ -486,15 +392,15 @@ export default {
       this.showEdit = true;
     },
 
-    /* 修改是否分队 10 */
-    setIsTeamPart(checked, row) {
+    /* 修改活动状态 */
+    status(checked, row) {
       let params = Object.assign({}, {
         id: row.id,
-        is_team_part: checked ? 1 : 2,
+        status: checked ? 1 : 2,
       });
-      this.$http.post('/activity/setIsTeamPart', params).then(res => {
+      this.$http.post('/activity/status', params).then(res => {
         if (res.data.code === 0) {
-          row.is_team_part = checked ? 1 : 2;
+          row.status = checked ? 1 : 2;
           this.$message.success(res.data.msg);
         } else {
           this.$message.error(res.data.msg);

@@ -7,16 +7,32 @@
 
       <a-form-item label="封面图:" :label-col="{sm: {span: 4}, xs: {span: 6}}"
                    :wrapper-col="{sm: {span: 21}, xs: {span: 18}}">
-        <uploadImage :limit="5" :isMultiple="true" v-model:value="form.cover_imgs"/>
+        <uploadImage :limit="6" :isMultiple="true" v-model:value="form.cover_imgs"/>
       </a-form-item>
 
+      <a-form-item label="活动唯一sn:" name="activity_sn">
+        <a-input v-model:value="form.activity_sn" placeholder="请输入活动唯一sn" allow-clear/>
+      </a-form-item>
+
+      <a-form-item label="活动类型" name="activity_type">
+        <a-select v-model:value="form.activity_type" placeholder="请选择活动类型" allow-clear>
+          <a-select-option :value="10">运动健身</a-select-option>
+          <a-select-option :value="20">户外出行</a-select-option>
+          <a-select-option :value="30">单身交友</a-select-option>
+          <a-select-option :value="40">生活学习</a-select-option>
+        </a-select>
+      </a-form-item>
+
+      <a-form-item label="场馆sn:" name="venue_sn">
+        <a-input v-model:value="form.venue_sn" placeholder="请输入场馆sn" allow-clear/>
+      </a-form-item>
+
+      <a-form-item label="场馆名称:" name="venue_name">
+        <a-input v-model:value="form.venue_name" placeholder="请输入场馆名称" allow-clear/>
+      </a-form-item>
 
       <a-form-item label="活动标题:" name="title">
         <a-input v-model:value="form.title" placeholder="请输入活动标题" allow-clear/>
-      </a-form-item>
-
-      <a-form-item label="场馆名称:" name="activity_address">
-        <a-input v-model:value="form.venue_title" placeholder="请选择场馆" allow-clear/>
       </a-form-item>
 
       <a-form-item label="活动地址:" name="activity_address">
@@ -37,15 +53,10 @@
                         v-model:value="form.activity_endtime"/>
       </a-form-item>
 
-      <a-form-item label="取消截止时间类型:" name="cancel_apply_deadline_type">
-        <a-date-picker format="YYYY-MM-DD HH:mm:ss" show-time :disabled-date="disabledStartDate"
-                       v-model:value="form.cancel_apply_deadline_type" value-format="YYYY-MM-DD HH:mm:ss"
-                       placeholder="请选择取消截止时间类型 10" class="ele-fluid"/>
-      </a-form-item>
-
-      <a-form-item label="取消截止时间:" name="cancel_apply_deadline_time">
-        <a-input-number :min="0" class="ele-fluid" placeholder="请输入取消截止时间"
-                        v-model:value="form.cancel_apply_deadline_time"/>
+      <a-form-item label="取消报名截止时间" name="cancel_apply_deadline_type">
+        <a-select v-model:value="form.cancel_apply_deadline_type" placeholder="请选择取消报名截止时间" allow-clear>
+          <a-select-option :value="10">活动前两小时</a-select-option>
+        </a-select>
       </a-form-item>
 
       <a-form-item label="活动标签:" name="tags">
@@ -53,7 +64,7 @@
       </a-form-item>
 
       <a-form-item label="男参与最低级别" name="male_min_level">
-        <a-select v-model:value="form.male_min_level" placeholder="请选择男参与最低级别 " allow-clear>
+        <a-select v-model:value="form.male_min_level" placeholder="请选择男参与最低级别" allow-clear>
           <a-select-option :value="0">不限</a-select-option>
         </a-select>
       </a-form-item>
@@ -72,11 +83,11 @@
 
       <a-form-item label="女参与最高级别" name="female_max_level">
         <a-select v-model:value="form.female_max_level" placeholder="请选择女参与最高级别" allow-clear>
-          <a-select-option :value="0">不限</a-select-option>
+          <a-select-option :value="0">:不限</a-select-option>
         </a-select>
       </a-form-item>
 
-      <a-form-item label="组织者类型 10" name="organizer_type">
+      <a-form-item label="组织者类型: 10" name="organizer_type">
         <a-select v-model:value="form.organizer_type" placeholder="请选择组织者类型" allow-clear>
           <a-select-option :value="10">个人</a-select-option>
           <a-select-option :value="20">俱乐部</a-select-option>
@@ -91,16 +102,15 @@
         <a-input v-model:value="form.contact_mobile" placeholder="请输入联系人手机号" allow-clear/>
       </a-form-item>
 
-      <a-form-item label="联系人微信号:" name="contact_wxid">
-        <a-input v-model:value="form.contact_wxid" placeholder="请输入联系人微信号" allow-clear/>
-      </a-form-item>
+      <!--      <a-form-item label="联系人微信号:" name="contact_wxid">-->
+      <!--        <a-input v-model:value="form.contact_wxid" placeholder="请输入联系人微信号" allow-clear/>-->
+      <!--      </a-form-item>-->
 
-      <a-form-item label="是否分队 " name="is_team_part">
-        <a-radio-group v-model:value="form.is_team_part">
-          <a-radio :value="20">是</a-radio>
-          <a-radio :value="10">否</a-radio>
-
-        </a-radio-group>
+      <a-form-item label="队伍类型" name="team_type">
+        <a-select v-model:value="form.team_type" placeholder="请选择队伍类型" allow-clear>
+          <a-select-option :value="10">线上分队</a-select-option>
+          <a-select-option :value="20">线下分队</a-select-option>
+        </a-select>
       </a-form-item>
 
       <a-form-item label="队伍总人数:" name="total_num">
@@ -111,31 +121,8 @@
         <a-input-number :min="0" class="ele-fluid" placeholder="请输入已报名总人数" v-model:value="form.current_num"/>
       </a-form-item>
 
-      <a-form-item label="红队总人数:" name="red_team_num">
-        <a-input-number :min="0" class="ele-fluid" placeholder="请输入红队总人数" v-model:value="form.red_team_num"/>
-      </a-form-item>
-
-      <a-form-item label="红队已报名人数:" name="red_team_current_num">
-        <a-input-number :min="0" class="ele-fluid" placeholder="请输入红队已报名人数"
-                        v-model:value="form.red_team_current_num"/>
-      </a-form-item>
-
-      <a-form-item label="蓝队总人数:" name="blue_team_num">
-        <a-input-number :min="0" class="ele-fluid" placeholder="请输入蓝队总人数" v-model:value="form.blue_team_num"/>
-      </a-form-item>
-
-      <a-form-item label="蓝队已报名人数:" name="blue_team_current_num">
-        <a-input-number :min="0" class="ele-fluid" placeholder="请输入蓝队已报名人数"
-                        v-model:value="form.blue_team_current_num"/>
-      </a-form-item>
-
       <a-form-item label="场馆费用:" name="venue_cost">
         <a-input-number :min="0" class="ele-fluid" placeholder="请输入场馆费用" v-model:value="form.venue_cost"/>
-      </a-form-item>
-
-      <a-form-item label="场馆实际费用, 队长折扣后价格:" name="venue_actual_cost">
-        <a-input-number :min="0" class="ele-fluid" placeholder="请输入场馆实际费用, 队长折扣后价格"
-                        v-model:value="form.venue_actual_cost"/>
       </a-form-item>
 
       <a-form-item label="报名费:" name="entry_fee">
@@ -149,6 +136,19 @@
       <a-form-item label="场馆定位纬度:" name="latitude">
         <a-input v-model:value="form.latitude" placeholder="请输入场馆定位纬度" allow-clear/>
       </a-form-item>
+
+      <a-form-item label="省:" name="province">
+        <a-input v-model:value="form.province" placeholder="请输入省" allow-clear/>
+      </a-form-item>
+
+      <a-form-item label="城市:" name="city">
+        <a-input v-model:value="form.city" placeholder="请输入城市" allow-clear/>
+      </a-form-item>
+
+      <a-form-item label="区:" name="district">
+        <a-input v-model:value="form.district" placeholder="请输入区" allow-clear/>
+      </a-form-item>
+
       <a-form-item label="活动描述:" :label-col="{ sm: { span: 3 }, xs: { span: 6 } }"
                    :wrapper-col="{ sm: { span: 21 }, xs: { span: 18 } }">
         <!-- 编辑器 -->
@@ -199,6 +199,34 @@ export default {
           trigger: 'blur'
         }],
 
+        activity_sn: [{
+          required: true,
+          message: '请输入活动唯一sn',
+          type: 'string',
+          trigger: 'blur'
+        }],
+
+        activity_type: [{
+          required: true,
+          message: '请输入活动类型',
+          type: 'number',
+          trigger: 'blur'
+        }],
+
+        venue_sn: [{
+          required: true,
+          message: '请输入场馆sn',
+          type: 'string',
+          trigger: 'blur'
+        }],
+
+        venue_name: [{
+          required: true,
+          message: '请输入场馆名称',
+          type: 'string',
+          trigger: 'blur'
+        }],
+
         title: [{
           required: true,
           message: '请输入活动标题',
@@ -236,7 +264,7 @@ export default {
 
         cancel_apply_deadline_type: [{
           required: true,
-          message: '请输入取消截止时间类型',
+          message: '请输入取消报名截止时间类型: 10',
           type: 'number',
           trigger: 'blur'
         }],
@@ -278,7 +306,7 @@ export default {
 
         organizer_type: [{
           required: true,
-          message: '请输入组织者类型',
+          message: '请输入组织者类型: 10',
           type: 'number',
           trigger: 'blur'
         }],
@@ -304,9 +332,9 @@ export default {
           trigger: 'blur'
         }],
 
-        is_team_part: [{
+        team_type: [{
           required: true,
-          message: '请输入是否分队',
+          message: '请输入队伍类型',
           type: 'number',
           trigger: 'blur'
         }],
@@ -318,9 +346,63 @@ export default {
           trigger: 'blur'
         }],
 
+        venue_cost:
+          [{
+            required: true,
+            message: '请输入场馆费用',
+            type: 'number',
+            trigger: 'blur'
+          }],
+
         entry_fee: [{
           required: true,
           message: '请输入报名费',
+          type: 'number',
+          trigger: 'blur'
+        }],
+
+        longitude:
+          [{
+            required: true,
+            message: '请输入场馆定位经度',
+            type: 'string',
+            trigger: 'blur'
+          }],
+
+        latitude:
+          [{
+            required: true,
+            message: '请输入场馆定位纬度',
+            type: 'string',
+            trigger: 'blur'
+          }],
+
+        province:
+          [{
+            required: true,
+            message: '请输入省',
+            type: 'string',
+            trigger: 'blur'
+          }],
+
+        city:
+          [{
+            required: true,
+            message: '请输入城市',
+            type: 'string',
+            trigger: 'blur'
+          }],
+
+        district: [{
+          required: true,
+          message: '请输入区',
+          type: 'string',
+          trigger: 'blur'
+        }],
+
+        status: [{
+          required: true,
+          message: '请输入活动状态',
           type: 'number',
           trigger: 'blur'
         }],

@@ -128,12 +128,6 @@ export default {
         },
 
         {
-          title: '最后一次授权时间',
-          dataIndex: 'last_auth_time',
-          align: 'center'
-        },
-
-        {
           title: '注册时间',
           dataIndex: 'create_time',
           sorter: true,
